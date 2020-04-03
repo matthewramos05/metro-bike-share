@@ -1,0 +1,44 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+    <item android:id="@+id/query"
+        android:title="Query"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/dayofweek"
+        android:title="Days of the Week"
+        app:showAsAction="never">
+
+        <menu>
+
+            <item android:id="@+id/all"
+                android:title="All Days"/>
+
+            <item android:id="@+id/monday"
+                android:title="Monday"/>
+
+            <item android:id="@+id/tuesday"
+                android:title="Tuesday"/>
+
+            <item android:id="@+id/wednesday"
+                android:title="Wednesday"/>
+
+            <item android:id="@+id/thursday"
+                android:title="Thursday"/>
+
+            <item android:id="@+id/friday"
+                android:title="Friday"/>
+
+            <item android:id="@+id/saturday"
+                android:title="Saturday"/>
+
+            <item android:id="@+id/sunday"
+                android:title="Sunday"/>
+
+        </menu>
+
+    </item>
+
+</menu>

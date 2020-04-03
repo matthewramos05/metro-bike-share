@@ -3,7 +3,10 @@
     package="com.matthewramos.metrobikesharedata">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -12,13 +15,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".SundayActivity" />
+        <activity android:name=".SaturdayActivity" />
+        <activity android:name=".FridayActivity" />
+        <activity android:name=".ThursdayActivity" />
+        <activity android:name=".WednesdayActivity" />
+        <activity android:name=".TuesdayActivity" />
+        <activity android:name=".MondayActivity" />
+        <activity android:name=".QueryActivity"
+                  android:screenOrientation="portrait" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+
         </activity>
+        <activity
+            android:name=".ResultsActivity"
+            android:label="Statistical Query - results"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

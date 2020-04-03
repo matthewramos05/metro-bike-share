@@ -47,18 +47,17 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
+public class TuesdayActivity extends AppCompatActivity {
 
     private MapView mMapView;
     private Callout mCallout;
     private ServiceFeatureTable mServiceFeatureTable;
     private FeatureLayer mFeatureLayer;
-    //final FeatureLayer featureLayer = new FeatureLayer(mServiceFeatureTable);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_tuesday);
 
         mMapView = (MapView) findViewById(R.id.mapView);
         // create an ArcGISMap with BasemapType topo
@@ -77,27 +76,6 @@ public class MainActivity extends AppCompatActivity {
         // add the layer to the map
         //map.getOperationalLayers().add(featureLayer);
         //mFeatureLayer = new FeatureLayer(mServiceFeatureTable);
-
-
-        String addressLabelsJson = "{" +
-                "\"labelExpressionInfo\": {" + // Define a labeling expression that will show the address attribute value
-                "\"expression\": \"return $feature.peak_trips;\"}," +
-                "\"labelPlacement\": \"esriServerPolygonPlacementAlwaysHorizontal\"," + // Align labels horizontally
-                "\"symbol\": {" + // Use a green bold text symbol
-                "\"color\": [0,0,0,255]," +
-                "\"font\": {\"size\": 18, \"weight\": \"bold\"}," +
-                "\"type\": \"esriTS\"}" +
-                //"\"where\": \"$feature.peak_trips > 100 \"" +
-                "}";
-        // Create a new LabelDefintion object using the static FromJson method
-        LabelDefinition labelDef = LabelDefinition.fromJson(addressLabelsJson);
-        // Clear the current collection of label definitions (if any)
-        mFeatureLayer.getLabelDefinitions().clear();
-        // Add this label definition to the collection
-        mFeatureLayer.getLabelDefinitions().add(labelDef);
-        // Make sure labeling is enabled for the layer
-        mFeatureLayer.setLabelsEnabled(true);
-
 
         //*******************
         // Peak Day Renderer
@@ -254,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                                         calloutContent.append("Station Name:" + " | " + value + "\n");
                                     }
                                     // append name value pairs to TextView
-                                   //calloutContent.append(key + " | " + value + "\n");
+                                    //calloutContent.append(key + " | " + value + "\n");
                                 }
                                 counter++;
                                 // center the mapview on selected feature
@@ -273,6 +251,7 @@ public class MainActivity extends AppCompatActivity {
                 return super.onSingleTapConfirmed(e);
             }
         });
+
     }
 
     @Override
@@ -286,35 +265,35 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.query:
-                Intent queIntent = new Intent(MainActivity.this, QueryActivity.class);
+                Intent queIntent = new Intent(TuesdayActivity.this, QueryActivity.class);
                 startActivity(queIntent);
                 return true;
+            case R.id.all:
+                Intent allIntent = new Intent(TuesdayActivity.this, MainActivity.class);
+                startActivity(allIntent);
+                return true;
             case R.id.monday:
-                Intent monIntent = new Intent(MainActivity.this, MondayActivity.class);
+                Intent monIntent = new Intent(TuesdayActivity.this, MondayActivity.class);
                 startActivity(monIntent);
                 return true;
-            case R.id.tuesday:
-                Intent tueIntent = new Intent(MainActivity.this, TuesdayActivity.class);
-                startActivity(tueIntent);
-                return true;
             case R.id.wednesday:
-                Intent wedIntent = new Intent(MainActivity.this, WednesdayActivity.class);
+                Intent wedIntent = new Intent(TuesdayActivity.this, WednesdayActivity.class);
                 startActivity(wedIntent);
                 return true;
             case R.id.thursday:
-                Intent thuIntent = new Intent(MainActivity.this, ThursdayActivity.class);
+                Intent thuIntent = new Intent(TuesdayActivity.this, ThursdayActivity.class);
                 startActivity(thuIntent);
                 return true;
             case R.id.friday:
-                Intent friIntent = new Intent(MainActivity.this, FridayActivity.class);
+                Intent friIntent = new Intent(TuesdayActivity.this, FridayActivity.class);
                 startActivity(friIntent);
                 return true;
             case R.id.saturday:
-                Intent satIntent = new Intent(MainActivity.this, SaturdayActivity.class);
+                Intent satIntent = new Intent(TuesdayActivity.this, SaturdayActivity.class);
                 startActivity(satIntent);
                 return true;
             case R.id.sunday:
-                Intent sunIntent = new Intent(MainActivity.this, SundayActivity.class);
+                Intent sunIntent = new Intent(TuesdayActivity.this, SundayActivity.class);
                 startActivity(sunIntent);
                 return true;
             default:
@@ -346,69 +325,3 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 }
-
-/**
- * Handle the search intent from the search widget
- */
-//    @Override
-//    protected void onNewIntent(Intent intent) {
-//        setIntent(intent);
-//        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-//            String searchString = intent.getStringExtra(SearchManager.QUERY);
-//            searchForState(searchString);
-//        }
-//    }
-
-//    private void searchForState(final String searchString) {
-//        // clear any previous selections
-//        mFeatureLayer.clearSelection();
-//        // create objects required to do a selection with a query
-//        QueryParameters query = new QueryParameters();
-//        // make search case insensitive
-//        query.setWhereClause("(station_name) = '%" + searchString + "%'" );
-//        // call select features
-//        final ListenableFuture<FeatureQueryResult> future = mServiceFeatureTable.queryFeaturesAsync(query);
-//        // add done loading listener to fire when the selection returns
-//        future.addDoneListener(() -> {
-//            try {
-//                // call get on the future to get the result
-//                FeatureQueryResult result = future.get();
-//                // check there are some results
-//                Iterator<Feature> resultIterator = result.iterator();
-//                if (resultIterator.hasNext()) {
-//                    // get the extent of the first feature in the result to zoom to
-//                    Feature feature = resultIterator.next();
-//                    Envelope envelope = feature.getGeometry().getExtent();
-//                    mMapView.setViewpointGeometryAsync(envelope, 10);
-//                    // select the feature
-//                    mFeatureLayer.selectFeature(feature);
-//                } else {
-//                    Toast.makeText(this, "No states found with name: " + searchString, Toast.LENGTH_LONG).show();
-//                }
-//            } catch (Exception e) {
-//                String error = "Feature search failed for: " + searchString + ". Error: " + e.getMessage();
-//                Toast.makeText(this, error, Toast.LENGTH_LONG).show();
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        // get the SearchView and set the searchable configuration
-//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-//        // assumes current activity is the searchable activity
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//        searchView.setIconifiedByDefault(false);
-//        return true;
-//    }
-
-
-// This goes in menu_main.xml
-//  <item
-//        android:id="@+id/action_search"
-//        android:title="@string/action_search"
-//        app:actionViewClass="androidx.appcompat.widget.SearchView"
-//        app:showAsAction="ifRoom" />
